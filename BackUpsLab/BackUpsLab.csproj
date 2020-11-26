@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="BackUpsFolder" />
+      <Folder Include="BackUpsFolder\0564b322-dd62-428f-8c57-9cea97b2185c" />
+    </ItemGroup>
+
+</Project>

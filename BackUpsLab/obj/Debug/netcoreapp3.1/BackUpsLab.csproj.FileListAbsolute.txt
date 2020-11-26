@@ -1,0 +1,13 @@
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\bin\Debug\netcoreapp3.1\BackUpsLab.exe
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\bin\Debug\netcoreapp3.1\BackUpsLab.deps.json
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\bin\Debug\netcoreapp3.1\BackUpsLab.runtimeconfig.json
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\bin\Debug\netcoreapp3.1\BackUpsLab.runtimeconfig.dev.json
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\bin\Debug\netcoreapp3.1\BackUpsLab.dll
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\bin\Debug\netcoreapp3.1\BackUpsLab.pdb
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\obj\Debug\netcoreapp3.1\BackUpsLab.csprojAssemblyReference.cache
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\obj\Debug\netcoreapp3.1\BackUpsLab.AssemblyInfoInputs.cache
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\obj\Debug\netcoreapp3.1\BackUpsLab.AssemblyInfo.cs
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\obj\Debug\netcoreapp3.1\BackUpsLab.csproj.CoreCompileInputs.cache
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\obj\Debug\netcoreapp3.1\BackUpsLab.dll
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\obj\Debug\netcoreapp3.1\BackUpsLab.pdb
+C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\obj\Debug\netcoreapp3.1\BackUpsLab.genruntimeconfig.cache

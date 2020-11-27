@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using BackUpsLab.BackUp.Interfaces;
@@ -80,6 +81,11 @@ namespace BackUpsLab.BackUp.Storage.ArchiveClass
             {
                 throw new FileRemoveException();
             }
+        }
+
+        public void RemoveAll()
+        {
+            File.Delete(Archive.ArchivePath);
         }
 
         public string Path()

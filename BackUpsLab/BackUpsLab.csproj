@@ -7,7 +7,6 @@
 
     <ItemGroup>
       <Folder Include="BackUpsFolder" />
-      <Folder Include="BackUpsFolder\0564b322-dd62-428f-8c57-9cea97b2185c" />
     </ItemGroup>
 
 </Project>

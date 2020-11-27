@@ -66,6 +66,12 @@ namespace BackUpsLab.BackUp.Storage.FolderClass
             }
         }
 
+        public void RemoveAll()
+        {
+            
+            Directory.Delete(Folder.FolderPath, true);
+            
+        }
         public string Path()
         {
             return Folder.FolderPath;

@@ -7,6 +7,7 @@ namespace BackUpsLab.BackUp.Interfaces
         void Create(List<string> files);
         void AddFileTo(string filePath);
         void RemoveFileFrom(string filePath);
+        void RemoveAll();
         string Path();
     }
 }

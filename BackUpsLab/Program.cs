@@ -7,27 +7,53 @@ using static System.Console;
 
 namespace BackUpsLab
 {
-    public static class Program
+    public class Program
     {
         private static void Main()
         {
             try
             {
-                List<string> filePaths = new List<string>
+                var filePaths = new List<string>
                 {
-                    @"C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\Program.cs",
-                    @"C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\BackUp\BackUpBuilder.cs",
-                    @"C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\BackUp\Interfaces\IStorageCreator.cs"
+                    @"D:\Физика\измерения 3.13\Измерения1.txt",
+                    @"D:\Физика\измерения 3.13\Измерения4.txt"
                 };
+                
+                var testBackUp = new BackUpBuilder(filePaths);
 
-                BackUpBuilder test = new BackUpBuilder(filePaths);
-
-                test
+                testBackUp
                     .AddBackUpStorageType
                     .Folder()
                     .CreatStorage()
+                    .AddRestorePointClearing
+                    .ByCount(2)
                     .AddRestorePointType
                     .FullRestorePoint()
+                    .AddRestorePointStorageType
+                    .Folder()
+                    .CreatePoint();
+                
+                using (var fstream = File.OpenWrite(filePaths[1]))
+                {
+                    fstream.SetLength(10);
+                }
+
+                testBackUp
+                    .AddRestorePointType
+                    .DeltaRestorePoint()
+                    .AddRestorePointStorageType
+                    .Folder()
+                    .CreatePoint();
+                
+                testBackUp
+                    .AddRestorePointType
+                    .FullRestorePoint()
+                    .AddRestorePointStorageType
+                    .Folder()
+                    .CreatePoint();
+                testBackUp
+                    .AddRestorePointType
+                    .DeltaRestorePoint()
                     .AddRestorePointStorageType
                     .Folder()
                     .CreatePoint();

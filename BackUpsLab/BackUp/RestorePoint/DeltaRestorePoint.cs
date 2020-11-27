@@ -28,7 +28,7 @@ namespace BackUpsLab.BackUp.RestorePoint
             List<string> modifiedList = new List<string>();
             foreach (var filePath in previousRestorePoint.EveryFileInfo.Keys)
             {
-                if (EveryFileInfo[filePath].Size != previousRestorePoint.EveryFileInfo[filePath].Size)
+                if (FileRestoreCopyInfo(filePath).Size != previousRestorePoint.EveryFileInfo[filePath].Size)
                 {
                     modifiedList.Add(filePath);
                 }
@@ -54,6 +54,14 @@ namespace BackUpsLab.BackUp.RestorePoint
             return fileRestoreCopyInfo;
         }
 
+        private static FileRestoreCopyInfo FileRestoreCopyInfo(string filePath)
+        {
+            var fileInfo = new FileInfo(filePath);
+            var fileRestoreCopyInfo = new FileRestoreCopyInfo
+                (filePath, fileInfo.Length, DateTime.Now);
+            return fileRestoreCopyInfo;
+        }
+        
         public DeltaRestorePoint(BackUp backUp) : base(backUp)
         {
             EveryFileInfo = new Dictionary<string, FileRestoreCopyInfo>();

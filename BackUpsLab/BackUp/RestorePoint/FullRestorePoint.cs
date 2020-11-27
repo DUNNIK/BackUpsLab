@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using BackUpsLab.Exceptions;
 
@@ -8,7 +9,7 @@ namespace BackUpsLab.BackUp.RestorePoint
     {
         public FullRestorePoint(BackUp backUp) : base(backUp)
         {
-            
+            EveryFileInfo = new Dictionary<string, FileRestoreCopyInfo>();
         }
 
         private void CreateRestoreForEveryFile()

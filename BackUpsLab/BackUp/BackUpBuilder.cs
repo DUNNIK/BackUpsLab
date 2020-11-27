@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using BackUpsLab.BackUp.RestorePoint;
+using BackUpsLab.BackUp.RestorePoint.RestorePointClearing;
 using BackUpsLab.BackUp.Storage;
 using BackUpsLab.Exceptions;
 
@@ -23,6 +25,7 @@ namespace BackUpsLab.BackUp
             BackUp.Storage.Create(BackUp.FilePaths);
             return this;
         }
+        
         protected BackUpBuilder(BackUp backUp) => BackUp = backUp;
 
         public BackUpBuilder AddFile(string filePath)
@@ -53,6 +56,7 @@ namespace BackUpsLab.BackUp
         
         public RestorePointStorageBuilder AddRestorePointStorageType => new RestorePointStorageBuilder(BackUp);
         
+        public RestorePointClearingBuilder AddRestorePointClearing => new RestorePointClearingBuilder(BackUp);
         public override string ToString() => BackUp.ToString();
         
         public BackUp Build() => BackUp;

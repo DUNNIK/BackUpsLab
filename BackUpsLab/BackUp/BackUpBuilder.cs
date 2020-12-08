@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Threading;
+using BackUpsLab.BackUp.Interfaces;
 using BackUpsLab.BackUp.RestorePoint;
 using BackUpsLab.BackUp.RestorePoint.RestorePointClearing;
 using BackUpsLab.BackUp.Storage;
@@ -49,7 +50,13 @@ namespace BackUpsLab.BackUp
             BackUp.Storage.RemoveFileFrom(filePath);
             return this;
         }
-        
+
+        public BackUpBuilder StopClearing()
+        {
+            Thread.Sleep(1000);
+            RestorePointClearing.Stop = true;
+            return this;
+        }
         public BackUpStorageBuilder AddBackUpStorageType => new BackUpStorageBuilder(BackUp);
         
         public RestorePointBuilder AddRestorePointType => new RestorePointBuilder(BackUp);

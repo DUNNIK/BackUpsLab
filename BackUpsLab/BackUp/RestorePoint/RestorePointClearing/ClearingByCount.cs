@@ -3,13 +3,13 @@ using BackUpsLab.BackUp.Interfaces;
 
 namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
 {
-    public static class ClearingByCount
+    public class ClearingByCount : Interfaces.RestorePointClearing
     {
         public static async void ClearRestorePoint(BackUp backUp, int clearCount)
         {
             await Task.Run(() =>
             {
-                while (true)
+                while (!Stop)
                 {
                     if (IsCountTrue(backUp, clearCount))
                     {
@@ -23,9 +23,10 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
         {
             var firstPoint = backUp.Manager.RestorePoints.Dequeue();
             firstPoint.Storage.RemoveAll();
+            backUp.BackUpComponents.Remove(firstPoint.Storage.Build());
         }
 
-        public static bool IsCountTrue(BackUp backUp, int clearCount)
+        private static bool IsCountTrue(BackUp backUp, int clearCount)
         {
             return backUp.Manager.RestorePoints.Count > clearCount;
         }

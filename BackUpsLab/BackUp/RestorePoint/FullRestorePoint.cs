@@ -9,7 +9,8 @@ namespace BackUpsLab.BackUp.RestorePoint
     {
         public FullRestorePoint(BackUp backUp) : base(backUp)
         {
-            EveryFileInfo = new Dictionary<string, FileRestoreCopyInfo>();
+            everyFileInfo = new Dictionary<string, FileRestoreCopyInfo>();
+            createDateTime = DateTime.Now;
         }
 
         private void CreateRestoreForEveryFile()
@@ -17,7 +18,7 @@ namespace BackUpsLab.BackUp.RestorePoint
             var filePaths = BackUp.FilePaths;
             foreach (var filePath in filePaths)
             {
-                EveryFileInfo.Add(filePath, CreateRestore(filePath));
+                everyFileInfo.Add(filePath, CreateRestore(filePath));
             }
         }
         public override void CreateRestorePoint()
@@ -26,6 +27,7 @@ namespace BackUpsLab.BackUp.RestorePoint
             {
                 CreateRestoreForEveryFile();
                 BackUp.Manager.RestorePoints.Enqueue(this);
+                BackUp.BackUpComponents.Add(storage.Build());
             }
             catch
             {
@@ -38,7 +40,7 @@ namespace BackUpsLab.BackUp.RestorePoint
             var fileInfo = new FileInfo(filePath);
             var fileRestoreCopyInfo = new FileRestoreCopyInfo
                 (filePath, fileInfo.Length, DateTime.Now);
-            Storage.AddFileTo(filePath);
+            storage.AddFileTo(filePath);
             return fileRestoreCopyInfo;
         }
     }

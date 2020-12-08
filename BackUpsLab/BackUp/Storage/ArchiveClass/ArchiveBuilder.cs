@@ -7,6 +7,7 @@ using BackUpsLab.Exceptions;
 
 namespace BackUpsLab.BackUp.Storage.ArchiveClass
 {
+    
     internal class ArchiveBuilder : IStorageCreator
     {
         private Archive Archive;
@@ -92,5 +93,7 @@ namespace BackUpsLab.BackUp.Storage.ArchiveClass
         {
             return Archive.ArchivePath;
         }
+
+        public IStorageComponent Build() => Archive;
     }
 }

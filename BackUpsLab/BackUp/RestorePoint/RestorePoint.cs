@@ -1,22 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BackUpsLab.BackUp.Interfaces;
-using BackUpsLab.BackUp.Storage.ArchiveClass;
-using BackUpsLab.BackUp.Storage.FolderClass;
 
 namespace BackUpsLab.BackUp.RestorePoint
 {
     public abstract class RestorePoint : BackUpBuilder
     {
-        public IStorageCreator Storage;
+        protected IStorageCreator storage;
 
-        public Dictionary<string, FileRestoreCopyInfo> EveryFileInfo;
+        protected DateTime createDateTime;
+        
+        protected Dictionary<string, FileRestoreCopyInfo> everyFileInfo;
 
         protected RestorePoint(BackUp backUp) : base(backUp)
         {
         }
 
         public abstract void CreateRestorePoint();
-        public abstract FileRestoreCopyInfo CreateRestore(string filePath); 
-        
+        public abstract FileRestoreCopyInfo CreateRestore(string filePath);
+
+        public Dictionary<string, FileRestoreCopyInfo> EveryFileInfo => everyFileInfo;
+
+        public IStorageCreator Storage => storage;
+
+        public DateTime CreateDateTime => createDateTime;
+
+        public void AddStorage(IStorageCreator storage)
+        {
+            this.storage = storage;
+        }
     }
 }

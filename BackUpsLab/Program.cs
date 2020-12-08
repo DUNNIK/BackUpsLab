@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using BackUpsLab.BackUp;
 using BackUpsLab.Exceptions;
 using static System.Console;
@@ -25,18 +26,21 @@ namespace BackUpsLab
                     .AddBackUpStorageType
                     .Folder()
                     .CreatStorage()
-                    .AddRestorePointClearing
-                    .ByCount(2)
                     .AddRestorePointType
                     .FullRestorePoint()
                     .AddRestorePointStorageType
                     .Folder()
                     .CreatePoint();
                 
+                // testBackUp
+                //     .AddRestorePointClearing
+                //     .ByCount(2);
                 using (var fstream = File.OpenWrite(filePaths[1]))
                 {
-                    fstream.SetLength(10);
+                    fstream.SetLength(12);
                 }
+
+                
 
                 testBackUp
                     .AddRestorePointType
@@ -46,17 +50,17 @@ namespace BackUpsLab
                     .CreatePoint();
                 
                 testBackUp
-                    .AddRestorePointType
-                    .FullRestorePoint()
-                    .AddRestorePointStorageType
-                    .Folder()
-                    .CreatePoint();
+                    .AddRestorePointClearing
+                    .BySize(100);
+                
+                // testBackUp
+                //     .AddRestorePointType
+                //     .FullRestorePoint()
+                //     .AddRestorePointStorageType
+                //     .Folder()
+                //     .CreatePoint();
                 testBackUp
-                    .AddRestorePointType
-                    .DeltaRestorePoint()
-                    .AddRestorePointStorageType
-                    .Folder()
-                    .CreatePoint();
+                    .StopClearing();
             }
             catch (ArchiveCreationException e)
             {

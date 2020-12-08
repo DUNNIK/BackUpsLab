@@ -9,5 +9,6 @@ namespace BackUpsLab.BackUp.Interfaces
         void RemoveFileFrom(string filePath);
         void RemoveAll();
         string Path();
+        IStorageComponent Build();
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using BackUpsLab.BackUp.Interfaces;
 using BackUpsLab.Exceptions;
 
 namespace BackUpsLab.BackUp.Storage.ArchiveClass
 {
-    public class Archive
+    public class Archive : IStorageComponent
     {
         protected internal readonly string ArchivePath;
         public Archive()
@@ -34,6 +35,19 @@ namespace BackUpsLab.BackUp.Storage.ArchiveClass
             {
                 throw new ArchiveCreationException();
             }
+        }
+
+        public long Size()
+        {
+            long resultSize = 0;
+            using (ZipArchive archive = ZipFile.OpenRead(ArchivePath))
+            {
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    resultSize += entry.Length;
+                }
+            }
+            return resultSize;
         }
     }
 }

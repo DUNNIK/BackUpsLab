@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using static BackUpsLab.BackUp.RestorePoint.RestorePointClearing.ClearingByCount;
 
 namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
 {
@@ -10,40 +11,24 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
         }
         public RestorePointClearingBuilder ByCount(int count)
         {
-            ClearingByCount.ClearRestorePoint(BackUp, count);
+            ClearRestorePoint(BackUp, count);
             return this;
         }
 
-        public RestorePointClearingBuilder ByDate()
+        public RestorePointClearingBuilder ByDate(DateTime time)
         {
+            ClearingByDate.ClearRestorePoint(BackUp, time);
             return this;
         }
 
-        public RestorePointClearingBuilder BySize()
+        public RestorePointClearingBuilder BySize(long size)
         {
+            ClearingBySize.ClearRestorePoint(BackUp, size);
             return this;
         }
 
         public RestorePointClearingBuilder Combo()
         {
-            return this;
-        }
-
-        public RestorePointClearingBuilder AddCount(int maxCount)
-        {
-            BackUp.ClearingType.ClearCount = maxCount;
-            return this;
-        }
-
-        public RestorePointClearingBuilder AddDate(DateTime maxTime)
-        {
-            BackUp.ClearingType.ClearTime = maxTime;
-            return this;
-        }
-
-        public RestorePointClearingBuilder AddSize(long maxSize)
-        {
-            BackUp.ClearingType.ClearSize = maxSize;
             return this;
         }
     }

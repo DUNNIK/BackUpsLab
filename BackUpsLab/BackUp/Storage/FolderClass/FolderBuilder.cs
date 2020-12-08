@@ -40,6 +40,8 @@ namespace BackUpsLab.BackUp.Storage.FolderClass
             File.Copy(filePath, 
                 System.IO.Path
                     .Combine(Folder.FolderPath, System.IO.Path.GetFileName(filePath)), true);
+            var file = new OrdinaryFile(filePath);
+            Folder.AddFolderFile(file);
         }
         public void AddFileTo(string filePath)
         {
@@ -76,5 +78,7 @@ namespace BackUpsLab.BackUp.Storage.FolderClass
         {
             return Folder.FolderPath;
         }
+
+        public IStorageComponent Build() => Folder;
     }
 }

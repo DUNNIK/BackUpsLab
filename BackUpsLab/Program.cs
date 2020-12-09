@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using BackUpsLab.BackUp;
+using BackUpsLab.BackUp.RestorePoint.RestorePointClearing;
 using BackUpsLab.Exceptions;
 using static System.Console;
 
 namespace BackUpsLab
 {
-    public class Program
+    public static class Program
     {
         private static void Main()
         {
@@ -37,7 +37,7 @@ namespace BackUpsLab
                 //     .ByCount(2);
                 using (var fstream = File.OpenWrite(filePaths[1]))
                 {
-                    fstream.SetLength(12);
+                    fstream.SetLength(35);
                 }
 
                 
@@ -49,18 +49,33 @@ namespace BackUpsLab
                     .Folder()
                     .CreatePoint();
                 
+                // testBackUp
+                //     .AddRestorePointClearing
+                //     .ByTime(DateTime.Now);
+
                 testBackUp
                     .AddRestorePointClearing
-                    .BySize(100);
-                
-                // testBackUp
-                //     .AddRestorePointType
-                //     .FullRestorePoint()
-                //     .AddRestorePointStorageType
-                //     .Folder()
-                //     .CreatePoint();
+                    .AddComboParams
+                    .AddLimitCount(3)
+                    .AddLimitSize(100)
+                    .AddLimitTime(DateTime.Now)
+                    .Combo(ComboClearing.ComboType.Max);
                 testBackUp
-                    .StopClearing();
+                    .AddRestorePointType
+                    .FullRestorePoint()
+                    .AddRestorePointStorageType
+                    .Archive()
+                    .CreatePoint();
+                
+                testBackUp
+                    .AddRestorePointType
+                    .FullRestorePoint()
+                    .AddRestorePointStorageType
+                    .Folder()
+                    .CreatePoint();
+                
+                
+                testBackUp.StopClearing();
             }
             catch (ArchiveCreationException e)
             {

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading;
 using BackUpsLab.BackUp.Interfaces;
 using BackUpsLab.Exceptions;
 
@@ -41,6 +43,7 @@ namespace BackUpsLab.BackUp.Storage.ArchiveClass
 
         private void CreateOneFile(string filePath)
         {
+            Thread.Sleep(4000);
             using (ZipArchive zipArchive = ZipFile.Open(Archive.ArchivePath, 
                 ZipArchiveMode.Update))
             {
@@ -86,7 +89,14 @@ namespace BackUpsLab.BackUp.Storage.ArchiveClass
 
         public void RemoveAll()
         {
-            File.Delete(Archive.ArchivePath);
+            try
+            {
+                File.Delete(Archive.ArchivePath);
+            }
+            catch
+            {
+                throw new FileRemoveException();
+            }
         }
 
         public string Path()

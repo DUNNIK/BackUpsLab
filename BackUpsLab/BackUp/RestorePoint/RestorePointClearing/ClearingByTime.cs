@@ -5,11 +5,11 @@ using BackUpsLab.Exceptions;
 
 namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
 {
-    public class ClearingByCount : Interfaces.RestorePointClearing, IRestorePointCount
+    public class ClearingByTime : Interfaces.RestorePointClearing, IRestorePointCount
     {
-        public ClearingByCount(int count)
+        public ClearingByTime(DateTime time)
         {
-            ClearingCount = count;
+            ClearingTime = time;
         }
         public override async void ClearRestorePoint(BackUp backUp)
         {
@@ -17,7 +17,7 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
             {
                 while (!Stop)
                 {
-                    if (IsCountTrue(backUp, ClearingCount))
+                    if (IsTimeTrue(backUp, ClearingTime))
                     {
                         RemoveLastRestorePoint(backUp);
                     }
@@ -32,7 +32,7 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
             {
                 while (!Stop)
                 {
-                    if (IsCountTrue(backUp, ClearingCount))
+                    if (IsTimeTrue(backUp, ClearingTime))
                     {
                         result++;
                     }
@@ -40,9 +40,6 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
             });
             return result;
         }
-
-        public Interfaces.RestorePointClearing ToRestore() => this;
-
         private static void RemoveLastRestorePoint(BackUp backUp)
         {
             try
@@ -57,9 +54,10 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
             }
         }
 
-        private static bool IsCountTrue(BackUp backUp, int clearCount)
+        public Interfaces.RestorePointClearing ToRestore() => this;
+        private static bool IsTimeTrue(BackUp backUp, DateTime clearTime)
         {
-            return backUp.Manager.RestorePoints.Count > clearCount;
+            return backUp.Manager.RestorePoints.Peek().CreateDateTime < clearTime;
         }
     }
 }

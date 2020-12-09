@@ -53,7 +53,7 @@ namespace BackUpsLab.BackUp
 
         public BackUpBuilder StopClearing()
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(8000);
             RestorePointClearing.Stop = true;
             return this;
         }

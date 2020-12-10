@@ -53,7 +53,6 @@ namespace BackUpsLab.BackUp
 
         public BackUpBuilder StopClearing()
         {
-            Thread.Sleep(8000);
             RestorePointClearing.Stop = true;
             return this;
         }
@@ -70,6 +69,10 @@ namespace BackUpsLab.BackUp
         
         public static implicit operator BackUp(BackUpBuilder builder) 
             => builder.BackUp;
-        
+
+        public void WaitCleaning()
+        {
+            Thread.Sleep(1000);
+        }
     }
 }

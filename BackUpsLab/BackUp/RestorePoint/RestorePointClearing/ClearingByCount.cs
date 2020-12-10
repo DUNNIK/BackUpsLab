@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using BackUpsLab.BackUp.Interfaces;
 using BackUpsLab.Exceptions;
@@ -15,9 +15,9 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
         {
             await Task.Run(() =>
             {
-                while (!Stop)
+                while (!Stop && IsBackUpUse(backUp))
                 {
-                    if (IsCountTrue(backUp, ClearingCount))
+                    if (IsCountTrue(backUp, ClearingCount) && backUp.Manager.RestorePoints.Any())
                     {
                         RemoveLastRestorePoint(backUp);
                     }
@@ -25,20 +25,9 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
             });
         }
 
-        public async Task<int> CountRestorePointsForCleaning(BackUp backUp)
+        public int CountRestorePointsForCleaning(BackUp backUp)
         {
-            var result = 0;
-            await Task.Run(() =>
-            {
-                while (!Stop)
-                {
-                    if (IsCountTrue(backUp, ClearingCount))
-                    {
-                        result++;
-                    }
-                }
-            });
-            return result;
+            return backUp.Manager.RestorePoints.Count - ClearingCount;
         }
 
         public Interfaces.RestorePointClearing ToRestore() => this;

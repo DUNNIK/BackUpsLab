@@ -12,11 +12,20 @@ namespace BackUpsLab.BackUp.Interfaces
         protected long ClearingSize = long.MaxValue;
 
         public abstract void ClearRestorePoint(BackUp backUp);
+        protected bool IsBackUpUse(BackUp backUp)
+        {
+            if ((DateTime.Now - backUp.LastUse).Seconds > 60)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 
     public interface IRestorePointCount
     {
-        public Task<int> CountRestorePointsForCleaning(BackUp backUp);
+        public int CountRestorePointsForCleaning(BackUp backUp);
         public RestorePointClearing ToRestore();
     }
 }

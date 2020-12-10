@@ -35,6 +35,7 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
         public RestorePointClearingBuilder Combo(ComboClearing.ComboType type)
         {
             _cleaning = new ComboClearing(type, ClearingTime, ClearingCount, ClearingSize);
+            _cleaning.ClearRestorePoint(BackUp);
             return this;
         }
         

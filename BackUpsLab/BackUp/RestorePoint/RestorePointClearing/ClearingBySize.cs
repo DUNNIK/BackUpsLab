@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using BackUpsLab.BackUp.Interfaces;
 using BackUpsLab.Exceptions;
 
@@ -14,30 +16,28 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
         {
             await Task.Run(() =>
             {
-                while (!Stop)
+                while (!Stop && IsBackUpUse(backUp))
                 {
-                    if (IsSizeTrue(backUp, ClearingSize))
+                    if (IsSizeTrue(backUp, ClearingSize) && backUp.Manager.RestorePoints.Any())
                     {
                         RemoveLastRestorePoint(backUp);
                     }
                 }
             });
         }
-
         public Interfaces.RestorePointClearing ToRestore() => this;
-        public async Task<int> CountRestorePointsForCleaning(BackUp backUp)
+        public int CountRestorePointsForCleaning(BackUp backUp)
         {
             var result = 0;
-            await Task.Run(() =>
+            var backUpSize = backUp.Size();
+            foreach (var storage in backUp.BackUpComponents)
             {
-                while (!Stop)
+                if (backUpSize > ClearingSize)
                 {
-                    if (IsSizeTrue(backUp, ClearingSize))
-                    {
-                        result++;
-                    }
+                    result++;
+                    backUpSize -= storage.Size();
                 }
-            });
+            }
             return result;
         }
         private static void RemoveLastRestorePoint(BackUp backUp)
@@ -56,6 +56,7 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
 
         private static bool IsSizeTrue(IStorageComponent backUp, long clearSize)
         {
+            var backUpSize = backUp.Size();
             return backUp.Size() > clearSize;
         }
     }

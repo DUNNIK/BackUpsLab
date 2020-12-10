@@ -34,27 +34,27 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
         private bool CheckCount() => ClearingCount != int.MaxValue;
         private bool CheckTime() => ClearingTime != DateTime.MaxValue;
         private bool CheckSize() => ClearingSize != long.MaxValue;
-        private async void FindResultCleaning(BackUp backUp)
+        private void FindResultCleaning(BackUp backUp)
         {
             AddAvailableLimits();
             if (_type == ComboType.Max)
             {
-                _resultClearing = await FindMaxCleaning(backUp);
+                _resultClearing = FindMaxCleaning(backUp);
             }
 
             if (_type == ComboType.Min)
             {
-                _resultClearing = await FindMinCleaning(backUp);
+                _resultClearing = FindMinCleaning(backUp);
             }
         }
 
-        private async Task<Interfaces.RestorePointClearing> FindMaxCleaning(BackUp backUp)
+        private Interfaces.RestorePointClearing FindMaxCleaning(BackUp backUp)
         {
             var maxCount = int.MinValue;
             Interfaces.RestorePointClearing maxCleaning = null;
             foreach (var limit in _availableLimits)
             {
-                var count = await limit.CountRestorePointsForCleaning(backUp);
+                var count = limit.CountRestorePointsForCleaning(backUp);
                 if (count > maxCount)
                 {
                     maxCount = count;
@@ -65,13 +65,13 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
             return maxCleaning;
         }
 
-        private async Task<Interfaces.RestorePointClearing> FindMinCleaning(BackUp backUp)
+        private Interfaces.RestorePointClearing FindMinCleaning(BackUp backUp)
         {
             var minCount = int.MaxValue;
             Interfaces.RestorePointClearing minCleaning = null;
             foreach (var limit in _availableLimits)
             {
-                var count = await limit.CountRestorePointsForCleaning(backUp);
+                var count = limit.CountRestorePointsForCleaning(backUp);
                 if (count < minCount)
                 {
                     minCount = count;

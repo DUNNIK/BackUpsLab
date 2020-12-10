@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 using BackUpsLab.BackUp.Interfaces;
 using BackUpsLab.Exceptions;
@@ -11,13 +13,14 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
         {
             ClearingTime = time;
         }
+        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: Enumerator[BackUpsLab.BackUp.RestorePoint.RestorePoint]")]
         public override async void ClearRestorePoint(BackUp backUp)
         {
             await Task.Run(() =>
             {
-                while (!Stop)
+                while (!Stop && IsBackUpUse(backUp))
                 {
-                    if (IsTimeTrue(backUp, ClearingTime))
+                    if (IsTimeTrue(backUp, ClearingTime) & backUp.Manager.RestorePoints.Any())
                     {
                         RemoveLastRestorePoint(backUp);
                     }
@@ -25,19 +28,16 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
             });
         }
 
-        public async Task<int> CountRestorePointsForCleaning(BackUp backUp)
+        public int CountRestorePointsForCleaning(BackUp backUp)
         {
             var result = 0;
-            await Task.Run(() =>
+            foreach (var point in backUp.Manager.RestorePoints)
             {
-                while (!Stop)
+                if (point.CreateDateTime < ClearingTime)
                 {
-                    if (IsTimeTrue(backUp, ClearingTime))
-                    {
-                        result++;
-                    }
+                    result++;
                 }
-            });
+            }
             return result;
         }
         private static void RemoveLastRestorePoint(BackUp backUp)

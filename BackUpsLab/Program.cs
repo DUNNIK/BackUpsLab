@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using BackUpsLab.BackUp;
 using BackUpsLab.BackUp.RestorePoint.RestorePointClearing;
 using BackUpsLab.Exceptions;
@@ -10,7 +11,9 @@ namespace BackUpsLab
 {
     public static class Program
     {
-        private static void Main()
+#pragma warning disable 1998
+        private static async Task Main()
+#pragma warning restore 1998
         {
             try
             {
@@ -37,9 +40,8 @@ namespace BackUpsLab
                 //     .ByCount(2);
                 using (var fstream = File.OpenWrite(filePaths[1]))
                 {
-                    fstream.SetLength(35);
+                    fstream.SetLength(4);
                 }
-
                 
 
                 testBackUp
@@ -64,7 +66,7 @@ namespace BackUpsLab
                     .AddRestorePointType
                     .FullRestorePoint()
                     .AddRestorePointStorageType
-                    .Archive()
+                    .Folder()
                     .CreatePoint();
                 
                 testBackUp
@@ -75,7 +77,8 @@ namespace BackUpsLab
                     .CreatePoint();
                 
                 
-                testBackUp.StopClearing();
+                //testBackUp.StopClearing();
+                testBackUp.WaitCleaning();
             }
             catch (ArchiveCreationException e)
             {

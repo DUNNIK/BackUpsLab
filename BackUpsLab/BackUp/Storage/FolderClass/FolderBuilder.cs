@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using BackUpsLab.BackUp.Interfaces;
 using BackUpsLab.Exceptions;
@@ -70,9 +71,15 @@ namespace BackUpsLab.BackUp.Storage.FolderClass
 
         public void RemoveAll()
         {
-            
-            Directory.Delete(Folder.FolderPath, true);
-            
+            try
+            {
+                Directory.Delete(Folder.FolderPath, true);
+            }
+            catch
+            {
+                throw new FileRemoveException();
+            }
+
         }
         public string Path()
         {

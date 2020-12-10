@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using BackUpsLab.BackUp.Interfaces;
 
 namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
@@ -9,7 +8,7 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
     {
         private Interfaces.RestorePointClearing _resultClearing;
         private readonly List<IRestorePointCount> _availableLimits = new List<IRestorePointCount>();
-        private ComboType _type;
+        private readonly ComboType _type;
 
         public ComboClearing(ComboType type, DateTime time, int count, long size)
         {

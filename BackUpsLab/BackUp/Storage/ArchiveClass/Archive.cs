@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using BackUpsLab.BackUp.Interfaces;
 using BackUpsLab.Exceptions;
 
@@ -42,10 +43,7 @@ namespace BackUpsLab.BackUp.Storage.ArchiveClass
             long resultSize = 0;
             using (ZipArchive archive = ZipFile.OpenRead(ArchivePath))
             {
-                foreach (ZipArchiveEntry entry in archive.Entries)
-                {
-                    resultSize += entry.Length;
-                }
+                resultSize += archive.Entries.Sum(entry => entry.Length);
             }
             return resultSize;
         }

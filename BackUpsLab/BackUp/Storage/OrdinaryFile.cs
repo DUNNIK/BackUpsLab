@@ -5,19 +5,19 @@ namespace BackUpsLab.BackUp.Storage
 {
     public class OrdinaryFile : IStorageComponent
     {
-        private string filePath;
+        private readonly string _filePath;
 
         public OrdinaryFile(string filePath)
         {
-            this.filePath = filePath;
+            this._filePath = filePath;
         }
 
         public long Size()
         {
-            var fileInfo = new FileInfo(filePath);
+            var fileInfo = new FileInfo(_filePath);
             return fileInfo.Length;
         }
         
-        public string FilePath => filePath;
+        public string FilePath => _filePath;
     }
 }

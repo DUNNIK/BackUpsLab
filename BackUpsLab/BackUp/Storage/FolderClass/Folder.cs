@@ -9,7 +9,7 @@ namespace BackUpsLab.BackUp.Storage.FolderClass
     public class Folder : IStorageComponent
     {
         protected internal readonly string FolderPath;
-        protected List<IStorageComponent> FolderFiles = new List<IStorageComponent>();
+        private readonly List<IStorageComponent> _folderFiles = new List<IStorageComponent>();
         public Folder()
         {
             const string backUpsFolder = @"C:\Users\NIKITOS\RiderProjects\BackUpsLab\BackUpsLab\BackUpsFolder";
@@ -28,12 +28,12 @@ namespace BackUpsLab.BackUp.Storage.FolderClass
 
         public long Size()
         {
-            return FolderFiles.Sum(file => file.Size());
+            return _folderFiles.Sum(file => file.Size());
         }
 
         public void AddFolderFile(IStorageComponent file)
         {
-            FolderFiles.Add(file);
+            _folderFiles.Add(file);
         }
     }
 }

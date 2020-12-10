@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using BackUpsLab.BackUp.Interfaces;
 using BackUpsLab.Exceptions;
@@ -8,12 +7,12 @@ namespace BackUpsLab.BackUp.Storage.FolderClass
 {
     internal class FolderBuilder : IStorageCreator
     {
-        private Folder Folder;
+        private readonly Folder _folder;
 
-        public FolderBuilder() => Folder = new Folder();
+        public FolderBuilder() => _folder = new Folder();
         public FolderBuilder(string path)
         {
-            Folder = new Folder(path);
+            _folder = new Folder(path);
         }
 
         public void Create(List<string> files)
@@ -40,9 +39,9 @@ namespace BackUpsLab.BackUp.Storage.FolderClass
         {
             File.Copy(filePath, 
                 System.IO.Path
-                    .Combine(Folder.FolderPath, System.IO.Path.GetFileName(filePath)), true);
+                    .Combine(_folder.FolderPath, System.IO.Path.GetFileName(filePath)), true);
             var file = new OrdinaryFile(filePath);
-            Folder.AddFolderFile(file);
+            _folder.AddFolderFile(file);
         }
         public void AddFileTo(string filePath)
         {
@@ -61,7 +60,7 @@ namespace BackUpsLab.BackUp.Storage.FolderClass
             try
             {
                 File.Delete(System.IO.Path.
-                    Combine(Folder.FolderPath, System.IO.Path.GetFileName(filePath)));
+                    Combine(_folder.FolderPath, System.IO.Path.GetFileName(filePath)));
             }
             catch
             {
@@ -73,7 +72,7 @@ namespace BackUpsLab.BackUp.Storage.FolderClass
         {
             try
             {
-                Directory.Delete(Folder.FolderPath, true);
+                Directory.Delete(_folder.FolderPath, true);
             }
             catch
             {
@@ -83,9 +82,9 @@ namespace BackUpsLab.BackUp.Storage.FolderClass
         }
         public string Path()
         {
-            return Folder.FolderPath;
+            return _folder.FolderPath;
         }
 
-        public IStorageComponent Build() => Folder;
+        public IStorageComponent Build() => _folder;
     }
 }

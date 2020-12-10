@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using BackUpsLab.BackUp.Interfaces;
 using BackUpsLab.Exceptions;
 
 namespace BackUpsLab.BackUp.RestorePoint
@@ -68,7 +67,5 @@ namespace BackUpsLab.BackUp.RestorePoint
             everyFileInfo = new Dictionary<string, FileRestoreCopyInfo>();
             createDateTime = DateTime.Now;
         }
-        
-        RestorePointStorageBuilder TypeRestorePointBackUpStorage => new RestorePointStorageBuilder(BackUp);
     }
 }

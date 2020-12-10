@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using BackUpsLab.BackUp.Interfaces;
 using BackUpsLab.BackUp.RestorePoint;
-using BackUpsLab.BackUp.RestorePoint.RestorePointClearing;
 
 namespace BackUpsLab.BackUp
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -12,12 +11,12 @@ namespace BackUpsLab.BackUp.Storage.ArchiveClass
     
     internal class ArchiveBuilder : IStorageCreator
     {
-        private Archive Archive;
+        private readonly Archive _archive;
 
-        public ArchiveBuilder() => Archive = new Archive();
+        public ArchiveBuilder() => _archive = new Archive();
         public ArchiveBuilder(string path)
         {
-            Archive = new Archive(path);
+            _archive = new Archive(path);
         }
 
         public void Create(List<string> files)
@@ -44,7 +43,7 @@ namespace BackUpsLab.BackUp.Storage.ArchiveClass
         private void CreateOneFile(string filePath)
         {
             Thread.Sleep(4000);
-            using (ZipArchive zipArchive = ZipFile.Open(Archive.ArchivePath, 
+            using (ZipArchive zipArchive = ZipFile.Open(_archive.ArchivePath, 
                 ZipArchiveMode.Update))
             {
                 zipArchive.CreateEntryFromFile(filePath, 
@@ -54,7 +53,7 @@ namespace BackUpsLab.BackUp.Storage.ArchiveClass
 
         private void DeleteOneFile(string filePath)
         {
-            using (ZipArchive zipArchive = ZipFile.Open(Archive.ArchivePath, 
+            using (ZipArchive zipArchive = ZipFile.Open(_archive.ArchivePath, 
                 ZipArchiveMode.Update))
             {
                 zipArchive
@@ -91,7 +90,7 @@ namespace BackUpsLab.BackUp.Storage.ArchiveClass
         {
             try
             {
-                File.Delete(Archive.ArchivePath);
+                File.Delete(_archive.ArchivePath);
             }
             catch
             {
@@ -101,9 +100,9 @@ namespace BackUpsLab.BackUp.Storage.ArchiveClass
 
         public string Path()
         {
-            return Archive.ArchivePath;
+            return _archive.ArchivePath;
         }
 
-        public IStorageComponent Build() => Archive;
+        public IStorageComponent Build() => _archive;
     }
 }

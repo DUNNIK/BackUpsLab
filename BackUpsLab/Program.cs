@@ -11,9 +11,7 @@ namespace BackUpsLab
 {
     public static class Program
     {
-#pragma warning disable 1998
-        private static async Task Main()
-#pragma warning restore 1998
+        private static void Main()
         {
             try
             {

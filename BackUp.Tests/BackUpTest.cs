@@ -45,6 +45,7 @@ namespace BackUp.Tests
                 .AddRestorePointClearing
                 .ByCount(1);
             testBackUpBuilder.WaitCleaning();
+            testBackUpBuilder.StopClearing();
             
             Assert.That(testBackUpBuilder.Build().Manager.RestorePoints.Count, Is.EqualTo(1));
         }
@@ -92,6 +93,7 @@ namespace BackUp.Tests
                 .BySize(150);
             
             testBackUpBuilder.WaitCleaning();
+            testBackUpBuilder.StopClearing();
             
             Assert.That(testBackUpBuilder.Build().Manager.RestorePoints.Count, Is.EqualTo(1));
         }
@@ -137,7 +139,7 @@ namespace BackUp.Tests
                 .AddRestorePointType
                 .DeltaRestorePoint()
                 .AddRestorePointStorageType
-                .Archive()
+                .Folder()
                 .CreatePoint();
             
             Assert.That(testBackUpBuilder.Build().BackUpComponents.Last().Size(), Is.EqualTo(10));
@@ -178,7 +180,7 @@ namespace BackUp.Tests
         }
 
         [Test]
-        public void BackUp_CreatComboRestore_TwoRestorePoints()
+        public void BackUp_CreatComboRestoreWithMax_2RestorePoints()
         {
             var filePaths = new List<string>
             {
@@ -243,8 +245,79 @@ namespace BackUp.Tests
 
 
             testBackUpBuilder.WaitCleaning();
-
+            testBackUpBuilder.StopClearing();
+            
             Assert.That(testBackUpBuilder.Build().Manager.RestorePoints.Count, Is.EqualTo(2));
+        }
+        [Test]
+        public void BackUp_CreatComboRestoreWithMin_3RestorePoints()
+        {
+            var filePaths = new List<string>
+            {
+                @"D:\Физика\измерения 3.13\Измерения1.txt",
+                @"D:\Физика\измерения 3.13\Измерения4.txt"
+            };
+            using (var fstream1 = File.OpenWrite(filePaths[0]))
+            {
+                fstream1.SetLength(50);
+            }
+
+            using (var fstream2 = File.OpenWrite(filePaths[1]))
+            {
+                fstream2.SetLength(50);
+            }
+
+            var testBackUpBuilder = new BackUpBuilder(filePaths);
+
+            testBackUpBuilder
+                .AddBackUpStorageType
+                .Folder()
+                .CreatStorage()
+                .AddRestorePointType
+                .FullRestorePoint()
+                .AddRestorePointStorageType
+                .Folder()
+                .CreatePoint();
+
+            using (var fstream = File.OpenWrite(filePaths[1]))
+            {
+                fstream.SetLength(2);
+            }
+
+
+            testBackUpBuilder
+                .AddRestorePointType
+                .DeltaRestorePoint()
+                .AddRestorePointStorageType
+                .Folder()
+                .CreatePoint();
+
+            testBackUpBuilder
+                .AddRestorePointClearing
+                .AddComboParams
+                .AddLimitCount(3)
+                .AddLimitSize(100)
+                .AddLimitTime(DateTime.Now)
+                .Combo(ComboClearing.ComboType.Min);
+            testBackUpBuilder
+                .AddRestorePointType
+                .FullRestorePoint()
+                .AddRestorePointStorageType
+                .Folder()
+                .CreatePoint();
+
+            testBackUpBuilder
+                .AddRestorePointType
+                .FullRestorePoint()
+                .AddRestorePointStorageType
+                .Folder()
+                .CreatePoint();
+
+
+            testBackUpBuilder.WaitCleaning();
+            testBackUpBuilder.StopClearing();
+            
+            Assert.That(testBackUpBuilder.Build().Manager.RestorePoints.Count, Is.EqualTo(3));
         }
     }
 }

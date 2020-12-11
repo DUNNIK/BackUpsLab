@@ -29,13 +29,10 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
         {
             var result = 0;
             var backUpSize = backUp.Size();
-            foreach (var storage in backUp.BackUpComponents)
+            foreach (var storage in backUp.BackUpComponents.Where(storage => backUpSize > ClearingSize))
             {
-                if (backUpSize > ClearingSize)
-                {
-                    result++;
-                    backUpSize -= storage.Size();
-                }
+                result++;
+                backUpSize -= storage.Size();
             }
             return result;
         }
@@ -55,7 +52,6 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
 
         private static bool IsSizeTrue(IStorageComponent backUp, long clearSize)
         {
-            var backUpSize = backUp.Size();
             return backUp.Size() > clearSize;
         }
     }

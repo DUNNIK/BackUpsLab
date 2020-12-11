@@ -30,15 +30,7 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
 
         public int CountRestorePointsForCleaning(BackUp backUp)
         {
-            var result = 0;
-            foreach (var point in backUp.Manager.RestorePoints)
-            {
-                if (point.CreateDateTime < ClearingTime)
-                {
-                    result++;
-                }
-            }
-            return result;
+            return backUp.Manager.RestorePoints.Count(point => point.CreateDateTime < ClearingTime);
         }
         private static void RemoveLastRestorePoint(BackUp backUp)
         {

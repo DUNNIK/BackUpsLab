@@ -63,7 +63,6 @@ namespace BackUpsLab.BackUp.RestorePoint.RestorePointClearing
 
             return maxCleaning;
         }
-
         private Interfaces.RestorePointClearing FindMinCleaning(BackUp backUp)
         {
             var minCount = int.MaxValue;

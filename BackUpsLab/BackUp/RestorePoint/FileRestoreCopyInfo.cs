@@ -4,15 +4,15 @@ namespace BackUpsLab.BackUp.RestorePoint
 {
     public class FileRestoreCopyInfo
     {
-        public string FilePath;
-        public long Size;
-        public DateTime Time;
+        private string _filePath;
+        public readonly long Size;
+        private DateTime _time;
 
         public FileRestoreCopyInfo(string filePath, long size, DateTime time)
         {
-            FilePath = filePath;
+            _filePath = filePath;
             Size = size;
-            Time = time;
+            _time = time;
         }
     }
 }
